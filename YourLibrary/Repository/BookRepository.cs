@@ -38,7 +38,9 @@ public class BookRepository : IRepository<Book>
 
     public async Task<IEnumerable<Book>> GetAllAsync()
     {
-        var books = await _context.Books.ToListAsync();
+        var books = await _context.Books.Include(
+            book => book.Author
+            ).ToListAsync();
 
         return books;
     }

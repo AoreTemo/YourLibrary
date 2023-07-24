@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using YourLibrary.Abstractions;
 using YourLibrary.Data;
+using YourLibrary.Models;
+using YourLibrary.Repository;
 
 namespace YourLibrary.Controllers;
 
 public class BooksController : Controller
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IRepository<Book> _bookRepository;
 
-    public BooksController(ApplicationDbContext context)
+    public BooksController(IRepository<Book> bookRepository)
     {
-        _context = context;
+        _bookRepository = bookRepository;
     }
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var books = _context.Books.Include(b => b.Author).ToList();
+        var books = await _bookRepository.GetAllAsync();
 
         return View(books);
     }

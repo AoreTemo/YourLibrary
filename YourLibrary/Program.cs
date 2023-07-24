@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 using YourLibrary.Data;
+using YourLibrary.Models;
+using YourLibrary.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultString"
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<AuthorRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString)

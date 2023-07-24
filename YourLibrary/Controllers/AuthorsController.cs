@@ -1,13 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using YourLibrary.Abstractions;
+using YourLibrary.Models;
 
 namespace YourLibrary.Controllers
 {
     public class AuthorsController : Controller
     {
-        public IActionResult Index()
-        {
+        private readonly IRepository<Author> _authorRepository;
 
-            return View();
+        public AuthorsController(IRepository<Author> authorRepository)
+        {
+            _authorRepository = authorRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var authors = await _authorRepository.GetAllAsync();
+
+            return View(authors);
         }
     }
 }
