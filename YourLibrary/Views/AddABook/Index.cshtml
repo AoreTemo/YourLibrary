@@ -1,0 +1,31 @@
+﻿<div class="container">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Add a book</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="nameOfBook" class="form-label">Name of book</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="nameOfBook" placeholder="Name of book" required>
+                                <div class="invalid-feedback">
+                                    Name of book is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="author" placeholder="Name of author" required>
+                            <div class="invalid-feedback">
+                                Please enter author's name.
+                            </div>
+                        </div>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
