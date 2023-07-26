@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
+using YourLibrary.Abstractions;
 using YourLibrary.Data;
 using YourLibrary.Models;
 using YourLibrary.Repository;
@@ -11,8 +12,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultString"
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<BookRepository>();
-builder.Services.AddScoped<AuthorRepository>();
+builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString)
@@ -51,8 +52,8 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(
-    name: "AddABook",
-    pattern: "{controller=AddABook}/{action=Index}/{id?}"
+    name: "Create",
+    pattern: "{controller=Books}/{action=Create}/{id?}"
 );
 
 app.Run();

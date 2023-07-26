@@ -15,10 +15,30 @@ public class BooksController : Controller
     {
         _bookRepository = bookRepository;
     }
+
     public async Task<IActionResult> Index()
     {
         var books = await _bookRepository.GetAllAsync();
 
         return View(books);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Book book)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(book);
+        }
+
+
+        await _bookRepository.AddAsync(book);
+
+        return RedirectToAction("Index");
     }
 }

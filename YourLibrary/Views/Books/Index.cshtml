@@ -2,7 +2,7 @@
 
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <a href="/AddABook" class="btn btn-primary my-2">Add a book</a>
+        <a asp-controller="Books" asp-action="Create" class="btn btn-primary my-2">Add a book</a>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var book in Model)
             {
@@ -14,7 +14,7 @@
                             <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
                         </svg>
                         <div class="card-body">
-                            <p class="card-text">@book.Name,</p>
+                            <p class="card-text">@book.Name</p>
                             <p class="card-text">@book.Author.Name</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
