@@ -5,23 +5,23 @@ using YourLibrary.Models;
 
 namespace YourLibrary.Repository;
 
-public class AuthorRepository : IRepository<Author>
+public class ImageRepository : IRepository<Image>
 {
     private readonly ApplicationDbContext _context;
 
-    public AuthorRepository(ApplicationDbContext context)
+    public ImageRepository(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<bool> DeleteAsync(Author entity)
+    public async Task<bool> DeleteAsync(Image entity)
     {
         _context.Remove(entity);
 
         return await SaveAsync();
     }
 
-    public async Task<bool> DeleteRangeAsync(IEnumerable<Author> entities)
+    public async Task<bool> DeleteRangeAsync(IEnumerable<Image> entities)
     {
         _context.RemoveRange(entities);
 
@@ -30,14 +30,14 @@ public class AuthorRepository : IRepository<Author>
 
     public async Task<bool> DeleteAllAsync()
     {
-        _context.Authors.RemoveRange(_context.Authors);
+        _context.Images.RemoveRange(_context.Images);
 
         return await SaveAsync();
     }
 
-    public async Task<bool> UpdateAsync(Author author)
+    public async Task<bool> UpdateAsync(Image image)
     {
-        _context.Update(author);
+        _context.Update(image);
 
         return await SaveAsync();
     }
@@ -50,32 +50,32 @@ public class AuthorRepository : IRepository<Author>
         return changesExist;
     }
 
-    public async Task<bool> AddAsync(Author entity)
+    public async Task<bool> AddAsync(Image entity)
     {
         await _context.AddAsync(entity);
 
         return await SaveAsync();
     }
 
-    public async Task<bool> AddRangeAsync(IEnumerable<Author> entities)
+    public async Task<bool> AddRangeAsync(IEnumerable<Image> entities)
     {
         await _context.AddRangeAsync(entities);
 
         return await SaveAsync();
     }
 
-    public async Task<Author> GetByIdAsync(int id)
+    public async Task<Image> GetByIdAsync(int id)
     {
-        var author = await _context.Authors.FindAsync(id) ??
-                     await _context.Authors.FindAsync();
+        var image = await _context.Images.FindAsync(id) ??
+                    await _context.Images.FirstAsync();
 
-        return author;
+        return image;
     }
 
-    public async Task<IEnumerable<Author>> GetAllAsync()
+    public async Task<IEnumerable<Image>> GetAllAsync()
     {
-        var authors = await _context.Authors.ToListAsync();
+        var images = await _context.Images.ToListAsync();
 
-        return authors;
+        return images;
     }
 }

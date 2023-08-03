@@ -1,8 +1,15 @@
 ﻿@model IEnumerable<Book>
 
 <div class="album py-5 bg-body-tertiary">
+    <div class="container d-flex justify-content-between"> <!-- Wrap buttons in a flex container -->
+        <div>
+            <a asp-controller="Books" asp-action="Create" class="btn btn-primary my-2">Add a book</a>
+        </div>
+        <div>
+            <a asp-controller="Books" asp-action="ClearAll" class="btn btn-primary my-2">Clear all</a>
+        </div>
+    </div>
     <div class="container">
-        <a asp-controller="Books" asp-action="Create" class="btn btn-primary my-2">Add a book</a>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var book in Model)
             {
@@ -10,16 +17,29 @@
                     <div class="card shadow-sm">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @book.Name" preserveAspectRatio="xMidYMid slice" focusable="false">
                             <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"></rect>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                            @if (book.Image != null)
+                            {
+                                <image href="@book.Image.Link" alt="@book.Name" width="100%" height="100%" />
+                            }
+                            else
+                            {
+                                <rect width="100%" height="100%" fill="#55595c"></rect>
+                            }
                         </svg>
+
                         <div class="card-body">
                             <p class="card-text">@book.Name</p>
                             <p class="card-text">@book.Author.Name</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    <a type="button" class="btn btn-sm btn-outline-info" 
+                                       asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">
+                                        Edit
+                                    </a>
+                                    <a type="button" class="btn btn-sm btn-outline-danger"
+                                       asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">
+                                        Delete
+                                    </a>
                                 </div>
                             </div>
                         </div>

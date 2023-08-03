@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using YourLibrary.Abstractions;
 using YourLibrary.Data;
 using YourLibrary.Models;
@@ -38,9 +39,10 @@ public class BookRepository : IRepository<Book>
 
     public async Task<IEnumerable<Book>> GetAllAsync()
     {
-        var books = await _context.Books.Include(
-            book => book.Author
-            ).ToListAsync();
+        var books = await _context.Books
+            .Include(book => book.Author)
+            .Include(book => book.Image)
+            .ToListAsync();
 
         return books;
     }
@@ -67,11 +69,38 @@ public class BookRepository : IRepository<Book>
         return await SaveAsync();
     }
 
-    private async Task<bool> SaveAsync()
+    public async Task<bool> UpdateAsync(Book book)
+    {
+        var existingBook = await GetByIdAsync(book.Id);
+
+        existingBook.Name = book.Name;
+        existingBook.Author.Name = book.Author.Name;
+
+        if (book.Image != null)
+        {
+            if (existingBook.Image != null)
+            {
+                existingBook.Image.Link = book.Image.Link;
+            }
+            else
+            {
+                existingBook.Image = new Image
+                {
+                    Link = book.Image.Link
+                };
+            }
+        }   
+
+        _context.Update(existingBook);
+
+        return await SaveAsync();
+    }
+
+    public async Task<bool> SaveAsync()
     {
         var countOfChanges = await _context.SaveChangesAsync();
         var changesExist = countOfChanges > 0;
-
+                
         return changesExist;
     }
 }
