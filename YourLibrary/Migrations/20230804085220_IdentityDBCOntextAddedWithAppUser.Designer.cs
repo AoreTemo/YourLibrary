@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourLibrary.Data;
 
@@ -11,9 +12,11 @@ using YourLibrary.Data;
 namespace YourLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230804085220_IdentityDBCOntextAddedWithAppUser")]
+    partial class IdentityDBCOntextAddedWithAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,9 +200,6 @@ namespace YourLibrary.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -248,9 +248,6 @@ namespace YourLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
@@ -262,8 +259,6 @@ namespace YourLibrary.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("AuthorId");
 
@@ -342,10 +337,6 @@ namespace YourLibrary.Migrations
 
             modelBuilder.Entity("YourLibrary.Models.Book", b =>
                 {
-                    b.HasOne("YourLibrary.Models.AppUser", null)
-                        .WithMany("Books")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("YourLibrary.Models.Author", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
@@ -359,11 +350,6 @@ namespace YourLibrary.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("YourLibrary.Models.AppUser", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
